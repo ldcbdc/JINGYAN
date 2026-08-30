@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>净眼</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <main class="panel">
+    <header class="top">
+      <div class="brand">
+        <img class="brand-icon" src="../icons/logo.png" width="44" height="44" alt="" aria-hidden="true">
+        <div class="brand-copy">
+          <strong>净眼</strong>
+          <span id="mode-text">已暂停</span>
+        </div>
+      </div>
+        <div class="top-actions">
+          <button id="protection-toggle" class="switch" type="button" role="switch" aria-checked="true">
+            <span class="switch-track">
+              <span class="switch-thumb"></span>
+            </span>
+            <span id="toggle-label">已暂停</span>
+          </button>
+          <button id="top-settings" class="icon-btn" type="button" title="AI 设置" aria-label="AI 设置">⚙</button>
+        </div>
+    </header>
+
+      <section id="status" class="status paused" role="status" aria-live="polite">
+        <div id="mark" class="mark" aria-label="已暂停"></div>
+        <div class="status-copy">
+          <div id="status-badge" class="status-badge">已暂停</div>
+          <h1 id="title">防护已暂停</h1>
+          <p id="desc">开启后会继续检测当前页面和资金操作。</p>
+        </div>
+      </section>
+
+    <section id="ai-wrap" class="info ai-card" hidden>
+      <div class="ai-head">
+        <span class="label">✦ 深度思考</span>
+        <span class="ai-head-right">
+          <span id="ai-status" class="ai-status">分析中</span>
+          <a id="ai-settings" class="ai-settings" href="#">设置</a>
+        </span>
+      </div>
+      <div id="ai-steps" class="ai-steps"></div>
+      <button id="ai-reanalyze" class="ai-reanalyze" type="button">重新 AI 分析</button>
+    </section>
+
+    <section id="detail-wrap" class="info detail-card" hidden>
+      <div class="label">提示</div>
+      <div id="detail" class="detail"></div>
+    </section>
+  </main>
+
+  <script src="../scripts/blacklist.js"></script>
+  <script src="../scripts/core.js"></script>
+  <script src="../scripts/features.js"></script>
+  <script src="../scripts/ai.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
+
+

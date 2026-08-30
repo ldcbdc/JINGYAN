@@ -1,0 +1,64 @@
+{
+  "manifest_version": 3,
+  "name": "净眼",
+  "version": "1.3.1",
+  "description": "识别仿冒网址和页面中的充值、转账、支付等资金风险。",
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "icons": {
+    "16": "icons/logo.png",
+    "32": "icons/logo.png",
+    "48": "icons/logo.png",
+    "128": "icons/logo.png"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "净眼",
+    "default_icon": {
+      "16": "icons/logo.png",
+      "32": "icons/logo.png",
+      "48": "icons/logo.png",
+      "128": "icons/logo.png"
+    }
+  },
+  "options_page": "pages/options.html",
+  "background": {
+    "service_worker": "scripts/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "scripts/blacklist.js",
+        "scripts/intel.js",
+        "scripts/core.js",
+        "scripts/features.js",
+        "scripts/modal.js",
+        "scripts/intercept.js",
+        "scripts/ai.js",
+        "scripts/content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "pages/intercept.html"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
+}
+
+
+

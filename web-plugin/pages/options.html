@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>净眼 · api设置</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+      background: #f4f5f7;
+      color: #222;
+      display: flex;
+      justify-content: center;
+      padding: 40px 16px;
+    }
+    .card {
+      width: min(560px, 100%);
+      background: #fff;
+      border-radius: 14px;
+      padding: 28px 30px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+    }
+    h1 { font-size: 22px; margin-bottom: 6px; }
+    .sub { color: #777; font-size: 13px; margin-bottom: 22px; line-height: 1.6; }
+    label { display: block; font-weight: 600; margin: 16px 0 6px; font-size: 14px; }
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      height: 38px;
+      padding: 0 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      background: #fafafa;
+    }
+    input:focus { outline: 2px solid #ff7a18; border-color: transparent; }
+    select {
+      width: 100%;
+      height: 38px;
+      padding: 0 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      background: #fafafa;
+    }
+    .hint { font-size: 12px; color: #999; margin-top: 5px; line-height: 1.5; }
+    .check-row { display: flex; align-items: center; gap: 8px; margin-top: 18px; font-size: 14px; }
+    .check-row input { width: 16px; height: 16px; }
+    .btn {
+      margin-top: 24px;
+      width: 100%;
+      height: 40px;
+      border: 0;
+      border-radius: 8px;
+      background: #ff7a18;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn:hover { background: #e86a0a; }
+    #msg { margin-top: 14px; text-align: center; font-size: 14px; color: #2e7d32; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>净眼 · AI 反诈分析设置</h1>
+    <p class="sub">可配置云端 OpenAI 兼容接口和本地模型兜底。默认云端优先；当云端不可用或未配置云端时，会自动尝试本地模型；两者都没有时使用本地模拟 AI，保证演示稳定。</p>
+
+    <label for="provider-mode">模型来源</label>
+    <select id="provider-mode">
+      <option value="auto">自动（推荐）：云端优先，本地模型兜底</option>
+      <option value="cloud">仅云端</option>
+      <option value="local">仅本地</option>
+    </select>
+    <div class="hint">选择“仅本地”后，即使填了云端 API Key 也不会调用云端。</div>
+
+    <label for="api-key">API Key</label>
+    <input type="password" id="api-key" placeholder="sk-..." autocomplete="off">
+    <div class="hint">仅保存在浏览器本地 storage 中，不会上传到第三方。</div>
+
+    <label for="api-url">API 地址</label>
+    <input type="text" id="api-url" placeholder="https://api.deepseek.com/v1/chat/completions">
+    <div class="hint">协议按地址自动识别，换模型不用改代码：OpenAI 兼容（DeepSeek/Kimi/通义/智谱 paas/v4）、Anthropic（Claude/智谱 /api/anthropic）、Gemini（generativelanguage.googleapis.com）、Ollama 原生 /api/chat。</div>
+
+    <label for="model">模型名称</label>
+    <input type="text" id="model" placeholder="deepseek-chat">
+
+    <div style="border-top:1px solid #eee;margin:24px 0 4px;"></div>
+    <h2 style="font-size:16px;margin-top:18px;">本地模型</h2>
+
+    <label for="local-api-url">本地模型地址</label>
+    <input type="text" id="local-api-url" placeholder="http://127.0.0.1:11434/v1/chat/completions">
+    <div class="hint">支持 OpenAI 兼容接口；也支持 Ollama 原生 /api/chat 或 /api/generate。留空则不启用本地兜底。</div>
+
+    <label for="local-model">本地模型名称</label>
+    <input type="text" id="local-model" placeholder="qwen2.5:7b">
+
+    <label for="local-api-key">本地 API Key（可选）</label>
+    <input type="password" id="local-api-key" placeholder="本地服务一般不需要" autocomplete="off">
+
+    <div class="check-row">
+      <input type="checkbox" id="local-fallback" checked>
+      <label for="local-fallback" style="margin:0;font-weight:500;">云端不可用时使用本地模型兜底</label>
+    </div>
+
+    <div class="check-row">
+      <input type="checkbox" id="always-analyze" checked>
+      <label for="always-analyze" style="margin:0;font-weight:500;">每个页面都自动执行 AI 分析</label>
+    </div>
+    <div class="hint">关闭后，只在命中本地规则（仿冒域名/资金风险）时才调用 AI。</div>
+
+    <div style="border-top:1px solid #eee;margin:24px 0 4px;"></div>
+    <h2 style="font-size:16px;margin-top:18px;">威胁情报（可选）</h2>
+
+    <label for="vt-api-key">VirusTotal API Key</label>
+    <input type="password" id="vt-api-key" placeholder="留空则不启用威胁情报查询" autocomplete="off">
+    <div class="hint">免费申请：virustotal.com 注册后在 API key 页面获取。免费档 4 次/分钟、500 次/天，查询结果按域名缓存 24 小时。命中恶意判定时直接按高危处理。</div>
+
+    <button class="btn" id="save" type="button">保存设置</button>
+    <button class="btn" id="test" type="button" style="background:#333;margin-top:12px;">测试云端连接</button>
+    <button class="btn" id="test-local" type="button" style="background:#555;margin-top:12px;">测试本地模型</button>
+    <div id="msg"></div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
